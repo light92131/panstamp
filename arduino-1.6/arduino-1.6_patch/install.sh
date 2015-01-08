@@ -1,8 +1,29 @@
 #!/bin/bash
 # Install panStamp files for Arduino-1.5
 
-ARDUINO_DIR=..
+#
+# Take Arduino IDE installation directory from command line,
+# or assume "..".  Make sure install directory exists, and
+# contains an executable "arduino" file (that is, it looks like
+# a real Arduino IDE installation.
+#
+if [ $# -ne 0 ]; then
+  ARDUINO_DIR=$1
+else
+  ARDUINO_DIR=..
+fi
+if [ ! -d $ARDUINO_DIR ]; then
+  printf "Directory \"$ARDUINO_DIR\" does not exist.\n" >&2
+  exit 1
+fi
+if [ ! -x $ARDUINO_DIR/arduino ]; then
+  printf "Directory \"$ARDUINO_DIR\" does not appear to be an Arduino IDE installation directory.\n" >&2
+  exit 1
+fi
 
+#
+# Overlay the panStamp patch onto the Arduino IDE installation
+#
 printf "Installing patch...\n"
 
 cp -R libraries $ARDUINO_DIR/
