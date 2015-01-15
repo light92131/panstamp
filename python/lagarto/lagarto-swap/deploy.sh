@@ -8,32 +8,34 @@ VERBOSE=false
 EXECNAME=`basename $0`
 
 FILES="\
-    swapmanager.py                  \
-    lagarto-swap.py                 \
-    config/serial.xml               \
-    config/network.xml              \
-    config/settings.xml             \
-    config/lagarto.xml              \
-    www/command_saved.html          \
-    www/endpoint_panel.html         \
-    www/images/custom_logo.png      \
-    www/modem_network.html          \
-    www/general_settings.html       \
-    www/config_device.html          \
-    www/command_not_received.html   \
-    www/modem_serial.html           \
-    www/device_panel.html           \
-    www/command_received.html       \
-    www/js/endpoint_panel.js        \
-    www/js/general_settings.js      \
-    www/js/device_panel.js          \
-    www/js/modem_network.js         \
-    www/js/config_endpoint.js       \
-    www/js/menu.js                  \
-    www/js/config_device.js         \
-    www/js/modem_serial.js          \
-    www/config_endpoint.html        \
-    www/index.html                  \
+    swapmanager.py                            \
+    lagarto-swap.py                           \
+    config/serial.xml                         \
+    config/network.xml                        \
+    config/settings.xml                       \
+    config/lagarto.xml                        \
+    config/devices/devices.xml                \
+    config/devices/Lighthart/soilmoisture.xml \
+    www/command_saved.html                    \
+    www/endpoint_panel.html                   \
+    www/images/custom_logo.png                \
+    www/modem_network.html                    \
+    www/general_settings.html                 \
+    www/config_device.html                    \
+    www/command_not_received.html             \
+    www/modem_serial.html                     \
+    www/device_panel.html                     \
+    www/command_received.html                 \
+    www/js/endpoint_panel.js                  \
+    www/js/general_settings.js                \
+    www/js/device_panel.js                    \
+    www/js/modem_network.js                   \
+    www/js/config_endpoint.js                 \
+    www/js/menu.js                            \
+    www/js/config_device.js                   \
+    www/js/modem_serial.js                    \
+    www/config_endpoint.html                  \
+    www/index.html                            \
     "
 
 usage() {

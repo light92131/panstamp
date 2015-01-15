@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<device>
+  <developer>Lighthart</developer>
+  <product>Soil Moisture Sensor</product>
+  <pwrdownmode>true</pwrdownmode>
+  <regular>
+    <reg name="Data" id="11">
+      <endpoint name="Sequence number" type="num" dir="inp">
+        <position>0</position>
+        <size>2</size>
+      </endpoint>
+
+      <endpoint name="Voltage" type="num" dir="inp">
+        <position>2</position>
+        <size>2</size>
+        <units> <unit name="V" factor="0.001" offset="0"/> </units>
+      </endpoint>
+
+      <endpoint name="Moisture level 0" type="num" dir="inp">
+        <position>4</position>
+        <size>2</size>
+      </endpoint>
+
+      <endpoint name="Moisture level 1" type="num" dir="inp">
+        <position>6</position>
+        <size>2</size>
+      </endpoint>
+
+    </reg>
+  </regular>
+</device>
