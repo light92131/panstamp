@@ -26,6 +26,7 @@ __author__="Daniel Berenguer"
 __date__ ="$Aug 20, 2011 10:36:00 AM$"
 #########################################################################
 
+import sys
 import time
 
 from SerialPort import SerialPort
@@ -77,7 +78,8 @@ class SerialModem:
                     self._ccpacket_received(ccPacket)
                 except SwapException:
                     raise
-
+            else:
+                print time.strftime("[%b %d %H:%M:%S] ") + "Drop packet (no callback): " + strBuf
 
     def setRxCallback(self, cbFunct):
         """
@@ -98,13 +100,19 @@ class SerialModem:
             return True
         
         self._sermode = SerialModem.Mode.COMMAND
+        print time.strftime("[%b %d %H:%M:%S] ") + "Set modem COMMAND mode (goToCommandMode)"
         response = self.runAtCommand("+++", 5000)
 
         if response is not None:
             if response[:2] == "OK":
+                sys.stdout.flush()
+                sys.stderr.flush()
                 return True
         
         self._sermode = SerialModem.Mode.DATA
+        print time.strftime("[%b %d %H:%M:%S] ") + "Set modem DATA mode (goToCommandMode)"
+        sys.stdout.flush()
+        sys.stderr.flush()
         return False
 
 
@@ -121,6 +129,9 @@ class SerialModem:
         
         if response is not None:
             if response[0:2] == "OK":
+                print time.strftime("[%b %d %H:%M:%S] ") + "Set modem DATA mode (goToDataMode)"
+                sys.stdout.flush()
+                sys.stderr.flush()
                 self._sermode = SerialModem.Mode.DATA;
                 return True;
         
@@ -142,6 +153,9 @@ class SerialModem:
             return False
         
         if response[0:2] == "OK":
+            print time.strftime("[%b %d %H:%M:%S] ") + "Set modem DATA mode (reset)"
+            sys.stdout.flush()
+            sys.stderr.flush()
             self._sermode = SerialModem.Mode.DATA
             return True
         
@@ -276,6 +290,7 @@ class SerialModem:
         @param verbose: Print out SWAP traffic (True or False)
         """
         # Serial mode (command or data modes)
+        print time.strftime("[%b %d %H:%M:%S] ") + "Set modem DATA mode (__init__)"
         self._sermode = SerialModem.Mode.DATA
         # Response to the last AT command sent to the serial modem
         self._atresponse = ""
@@ -292,6 +307,10 @@ class SerialModem:
         ## Firmware version of the serial modem
         self.fwversion = None
 
+        print time.strftime("[%b %d %H:%M:%S] ") +  "Initialize modem"
+        sys.stdout.flush()
+        sys.stderr.flush()
+    
         try:
             # Open serial port
             self._serport = SerialPort(self.portname, self.portspeed, verbose)

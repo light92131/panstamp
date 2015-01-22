@@ -29,6 +29,8 @@ __version__ = "0.1.3"
 
 from SwapServer import SwapServer
 
+import sys
+import time
 
 class SwapInterface:
     """
@@ -248,11 +250,15 @@ class SwapInterface:
         self.network = None
                        
         if start:
-            print "SWAP server starting... "
+            print time.strftime("[%b %d %H:%M:%S] ") + "SWAP server starting... "
+            sys.stdout.flush()
+            sys.stderr.flush()
         try:
             self.server = SwapServer(self, settings, start)
         except:
             raise
         self.network = self.server.network
         if start:
-            print "SWAP server is now running... "
+            print time.strftime("[%b %d %H:%M:%S] ") + "SWAP server is now running... "
+            sys.stdout.flush()
+            sys.stderr.flush()

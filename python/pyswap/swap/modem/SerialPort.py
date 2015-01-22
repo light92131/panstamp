@@ -63,17 +63,19 @@ class SerialPort(threading.Thread):
                             if ch == '\r' or ((ch == '(') and (len(serbuf) > 0)):
                                 strBuf = "".join(serbuf)
                                 serbuf = []
-        
-                                # Enable for debug only
-                                if self._verbose == True:
-                                    print "Rved: " + strBuf
                                 
                                 # Notify reception
                                 if self.serial_received is not None:
                                     try:
+                                        # Enable for debug only
+                                        if self._verbose == True:
+                                            print time.strftime("[%b %d %H:%M:%S] ") + "Rved: " + strBuf + " (callback)"
                                         self.serial_received(strBuf)
                                     except SwapException as ex:
                                         ex.display()
+                                else:
+                                    print time.strftime("[%b %d %H:%M:%S] ") + "Rved: " + strBuf + " (dropped)"
+                                        
                             elif ch != '\n':
                                 # Append char at the end of the buffer (list)
                                 serbuf.append(ch)
@@ -95,8 +97,10 @@ class SerialPort(threading.Thread):
                             self.last_transmission_time = time.time()                       
                             # Enable for debug only
                             if self._verbose == True:
-                                print "Sent: " + strpacket
+                                print time.strftime("[%b %d %H:%M:%S] ") + "Sent: " + strpacket
                     #self._send_lock.release()
+                    sys.stdout.flush()
+                    sys.stderr.flush()
             else:
                 raise SwapException("Unable to read serial port " + self.portname + " since it is not open")
         else:
@@ -176,6 +180,10 @@ class SerialPort(threading.Thread):
         self._verbose = verbose
         # Time stamp of the last transmission
         self.last_transmission_time = 0
+        
+        print time.strftime("[%b %d %H:%M:%S] ") +  "Initialize serial:" + portname
+        sys.stdout.flush()
+        sys.stderr.flush()
         
         try:
             # Open serial port in blocking mode
