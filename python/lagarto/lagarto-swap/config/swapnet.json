@@ -1,4 +1,117 @@
 {
   "network": {
+    "name": "SWAP", 
+    "motes": [
+      {
+        "txinterval": 255, 
+        "pcode": "000000FF00000001", 
+        "registers": [
+          {
+            "endpoints": [
+              {
+                "direction": "inp", 
+                "name": "Sequence_number_28", 
+                "timestamp": "18 Jan 2015 14:34:53", 
+                "value": "1750", 
+                "location": "SWAP", 
+                "type": "num", 
+                "id": "28.11.0"
+              }, 
+              {
+                "direction": "inp", 
+                "name": "Voltage_28", 
+                "timestamp": "18 Jan 2015 14:34:53", 
+                "value": "3.873", 
+                "location": "SWAP", 
+                "units": [
+                  "V"
+                ], 
+                "type": "num", 
+                "id": "28.11.1", 
+                "unit": "V"
+              }, 
+              {
+                "direction": "inp", 
+                "name": "Moisture_level_0_28", 
+                "timestamp": "18 Jan 2015 14:34:53", 
+                "value": "992", 
+                "location": "SWAP", 
+                "type": "num", 
+                "id": "28.11.2"
+              }, 
+              {
+                "direction": "inp", 
+                "name": "Moisture_level_1_28", 
+                "timestamp": "18 Jan 2015 14:34:53", 
+                "value": "2045", 
+                "location": "SWAP", 
+                "type": "num", 
+                "id": "28.11.3"
+              }
+            ], 
+            "id": 11, 
+            "name": "Data"
+          }
+        ], 
+        "address": 28, 
+        "manufacturer": "Lighthart", 
+        "name": "Soil Moisture Sensor"
+      }, 
+      {
+        "txinterval": 0, 
+        "pcode": "000000FF00000001", 
+        "registers": [
+          {
+            "endpoints": [
+              {
+                "direction": "inp", 
+                "name": "Sequence_number_34", 
+                "timestamp": "18 Jan 2015 14:35:36", 
+                "value": "4800", 
+                "location": "SWAP", 
+                "type": "num", 
+                "id": "34.11.0"
+              }, 
+              {
+                "direction": "inp", 
+                "name": "Voltage_34", 
+                "timestamp": "18 Jan 2015 14:35:36", 
+                "value": "3.192", 
+                "location": "SWAP", 
+                "units": [
+                  "V"
+                ], 
+                "type": "num", 
+                "id": "34.11.1", 
+                "unit": "V"
+              }, 
+              {
+                "direction": "inp", 
+                "name": "Moisture_level_0_34", 
+                "timestamp": "18 Jan 2015 14:35:36", 
+                "value": "2691", 
+                "location": "SWAP", 
+                "type": "num", 
+                "id": "34.11.2"
+              }, 
+              {
+                "direction": "inp", 
+                "name": "Moisture_level_1_34", 
+                "timestamp": "18 Jan 2015 14:35:36", 
+                "value": "3959", 
+                "location": "SWAP", 
+                "type": "num", 
+                "id": "34.11.3"
+              }
+            ], 
+            "id": 11, 
+            "name": "Data"
+          }
+        ], 
+        "address": 34, 
+        "manufacturer": "Lighthart", 
+        "name": "Soil Moisture Sensor"
+      }
+    ]
   }
 }
