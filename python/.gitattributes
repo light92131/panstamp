@@ -1,0 +1,6 @@
+*.project export-ignore
+*.pydevproject export-ignore
+*.js~ export-ignore
+.metadata export-ignore
+.svn export-ignore
+.settings export-ignore
