@@ -9,14 +9,16 @@ VERBOSE=false
 UNDEPLOY=false
 RESTART=true
 UPDATE=false
+CLEAN=false
 
 usage() {
-    echo "Usage: $PROGNAME -h | -V | [-v] user remote /root/path/..."
+    echo "Usage: $PROGNAME -h | -V | [-v] [-c] [-n] [-u] [-U] user remote /root/path/..."
     echo "Deploy panStamp software to panStamp server platform"
     echo "  \"user\"           is the login name that owns the panStamp files on the server."
     echo "  \"remote\"         is the name of the server"
     echo "  \"/root/path/...\" names the server's panStamp python root directory"
     echo
+    echo "  -c  Recursively delete all files on server before deploying"
     echo "  -h  Display help"
     echo "  -n  No re-start after deployment (e.g., to allow additional server"
     echo "      configuration after deployment. Not valid with \"-u\""
@@ -27,8 +29,11 @@ usage() {
     echo "  -V  Display version"
 }
 
-while getopts ":hnuvV" opt; do
+while getopts ":chnuvV" opt; do
     case $opt in
+
+    c)  CLEAN=true
+        ;;
 
     h)  usage
         exit 0
@@ -70,6 +75,7 @@ SWAP_PATH=$3
 if $VERBOSE; then
     echo "Server: $USER@$SERVER:$SWAP_PATH"
     echo "restart server after deploy: $RESTART"
+    echo "clean (recursively delete all files) server directory: $CLEAN"
 fi
 
 if $UNDEPLOY; then
@@ -108,7 +114,7 @@ else
         exit 1
     fi
 
-    # Check is deployment directory is empty
+    # Check if deployment directory is empty
     N_FILES=`ssh $USER@$SERVER ls -a $SWAP_PATH | wc -l`
     if [ $N_FILES == 2 ]; then
         echo "Target directory $SWAP_PATH is empty"
@@ -158,7 +164,7 @@ else
         echo "SWAP server is not running on $SERVER"
     fi
 
-    if [ $N_FILES != 2 ]; then
+    if [ "$CLEAN" = "true"  -a  $N_FILES -ne 2 ]; then
         # Purge existing files on server
         ssh $USER@$SERVER "cd $SWAP_PATH; sudo rm -rf *"
         ssh $USER@$SERVER "cd $SWAP_PATH; rm .*" > /dev/null 2>&1
@@ -177,7 +183,10 @@ else
 
     # Copy files (just those under git management) to server
     echo -n "Copying to target... "
-    ( cd python; git archive --format tar HEAD . ) | ssh $USER@$SERVER "cd $SWAP_PATH; tar xf -"
+    ( cd python; git archive --format tar HEAD . ) |\
+        tar tf -                                   |\
+        grep -v '/$'                               |\
+        rsync --files-from=- python/ $USER@$SERVER:$SWAP_PATH
     echo "done."
 
     # Build/install new server
