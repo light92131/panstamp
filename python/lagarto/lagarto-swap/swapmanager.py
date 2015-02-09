@@ -28,6 +28,7 @@ __date__  ="$Jan 23, 2012$"
 
 import os
 import sys
+import time
 
 working_dir = os.path.dirname(__file__)
 lagarto_dir = os.path.split(working_dir)[0]
@@ -113,7 +114,7 @@ class SwapManager(SwapInterface, LagartoServer):
             return
         
         if self._print_swap == True:
-            print  "Register addr= " + str(register.getAddress()) + " id=" + str(register.id) + " changed to " + register.value.toAsciiHex()
+            print time.strftime("%d-%m-%Y %H:%M:%S ") + "Register addr= " + str(register.getAddress()) + " id=" + str(register.id) + " changed to " + register.value.toAsciiHex()
         
         status = []
         # For every endpoint contained in this register
@@ -123,7 +124,7 @@ class SwapManager(SwapInterface, LagartoServer):
                 if self._print_swap:
                     if endp.unit is not None:
                         strval += " " + endp.unit.name
-                    print endp.name + " in address " + str(endp.getRegAddress()) + " changed to " + strval
+                    print time.strftime("%d-%m-%Y %H:%M:%S ") + endp.name + " in address " + str(endp.getRegAddress()) + " changed to " + strval
                                
                 if endp.display:
                     endp_data = endp.dumps()

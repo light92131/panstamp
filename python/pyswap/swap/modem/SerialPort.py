@@ -69,12 +69,12 @@ class SerialPort(threading.Thread):
                                     try:
                                         # Enable for debug only
                                         if self._verbose == True:
-                                            print time.strftime("[%b %d %H:%M:%S] ") + "Rved: " + strBuf + " (callback)"
+                                            print time.strftime("%d-%m-%Y %H:%M:%S ") + "Serial Rved: " + strBuf + " (callback)"
                                         self.serial_received(strBuf)
                                     except SwapException as ex:
                                         ex.display()
                                 else:
-                                    print time.strftime("[%b %d %H:%M:%S] ") + "Rved: " + strBuf + " (dropped)"
+                                    print time.strftime("%d-%m-%Y %H:%M:%S ") + "Serial Rved: " + strBuf + " (dropped)"
                                         
                             elif ch != '\n':
                                 # Append char at the end of the buffer (list)
@@ -97,7 +97,7 @@ class SerialPort(threading.Thread):
                             self.last_transmission_time = time.time()                       
                             # Enable for debug only
                             if self._verbose == True:
-                                print time.strftime("[%b %d %H:%M:%S] ") + "Sent: " + strpacket
+                                print time.strftime("%d-%m-%Y %H:%M:%S ") + "Serial Sent: " + strpacket
                     #self._send_lock.release()
                     sys.stdout.flush()
                     sys.stderr.flush()
@@ -181,7 +181,7 @@ class SerialPort(threading.Thread):
         # Time stamp of the last transmission
         self.last_transmission_time = 0
         
-        print time.strftime("[%b %d %H:%M:%S] ") +  "Initialize serial:" + portname
+        print time.strftime("%d-%m-%Y %H:%M:%S ") +  "Initialize serial:" + portname
         sys.stdout.flush()
         sys.stderr.flush()
         

@@ -44,7 +44,7 @@ def signal_handler(signal, frame):
     Handle signal received
     """
     swap_manager.stop()
-    print(time.strftime("[%b %d %H:%M:%S] ") +  "Lagarto SWAP exiting (signal handler)")
+    print(time.strftime("%d-%m-%Y %H:%M:%S ") +  "Lagarto SWAP exiting (signal handler)")
     sys.stdout.flush()
     sys.stderr.flush()
     sys.exit(0)
@@ -67,12 +67,12 @@ if __name__ == '__main__':
         ex.display()
         ex.log()
 
-    print time.strftime("[%b %d %H:%M:%S] ") +  "Started Lagarto SWAP"
+    print time.strftime("%d-%m-%Y %H:%M:%S ") +  "Started Lagarto SWAP"
     sys.stdout.flush()
     sys.stderr.flush()
     signal.pause()
     
-    print strftime("[%b %d %H:%M:%S] ") +  "Lagarto SWAP exiting (main)"
+    print strftime("%d-%m-%Y %H:%M:%S ") +  "Lagarto SWAP exiting (main)"
     sys.stdout.flush()
     sys.stderr.flush()
 

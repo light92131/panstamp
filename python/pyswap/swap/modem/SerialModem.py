@@ -28,6 +28,7 @@ __date__ ="$Aug 20, 2011 10:36:00 AM$"
 
 import sys
 import time
+import threading
 
 from SerialPort import SerialPort
 from CcPacket import CcPacket
@@ -61,25 +62,29 @@ class SerialModem:
         
         @param buf: Serial packet received in String format
         """
+        
         # If modem in command mode
         if self._sermode == SerialModem.Mode.COMMAND:
             self._atresponse = buf
             self.__atresponse_received = True
+            print time.strftime("%d-%m-%Y %H:%M:%S ") + "Modem rx: command mode response: " + buf
         # If modem in data mode
         else:
             # Waiting for ready signal from modem?
             if self._wait_modem_start == False:
                 if buf == "Modem ready!":
+                    print time.strftime("%d-%m-%Y %H:%M:%S ") + "Modem rx: Set ready status: " + buf
                     self._wait_modem_start = True
             # Create CcPacket from string and notify reception
             elif self._ccpacket_received is not None:
                 try:
                     ccPacket = CcPacket(buf)
                     self._ccpacket_received(ccPacket)
+                    print time.strftime("%d-%m-%Y %H:%M:%S ") + "Modem rx: Callback: " + buf
                 except SwapException:
                     raise
             else:
-                print time.strftime("[%b %d %H:%M:%S] ") + "Drop packet (no callback): " + strBuf
+                print time.strftime("%d-%m-%Y %H:%M:%S ") + "Drop packet (no callback): " + strBuf
 
     def setRxCallback(self, cbFunct):
         """
@@ -100,7 +105,7 @@ class SerialModem:
             return True
         
         self._sermode = SerialModem.Mode.COMMAND
-        print time.strftime("[%b %d %H:%M:%S] ") + "Set modem COMMAND mode (goToCommandMode)"
+        print time.strftime("%d-%m-%Y %H:%M:%S ") + "Set modem COMMAND mode (goToCommandMode)"
         response = self.runAtCommand("+++", 5000)
 
         if response is not None:
@@ -110,7 +115,7 @@ class SerialModem:
                 return True
         
         self._sermode = SerialModem.Mode.DATA
-        print time.strftime("[%b %d %H:%M:%S] ") + "Set modem DATA mode (goToCommandMode)"
+        print time.strftime("%d-%m-%Y %H:%M:%S ") + "Set modem DATA mode (goToCommandMode)"
         sys.stdout.flush()
         sys.stderr.flush()
         return False
@@ -129,7 +134,7 @@ class SerialModem:
         
         if response is not None:
             if response[0:2] == "OK":
-                print time.strftime("[%b %d %H:%M:%S] ") + "Set modem DATA mode (goToDataMode)"
+                print time.strftime("%d-%m-%Y %H:%M:%S ") + "Set modem DATA mode (goToDataMode)"
                 sys.stdout.flush()
                 sys.stderr.flush()
                 self._sermode = SerialModem.Mode.DATA;
@@ -153,7 +158,7 @@ class SerialModem:
             return False
         
         if response[0:2] == "OK":
-            print time.strftime("[%b %d %H:%M:%S] ") + "Set modem DATA mode (reset)"
+            print time.strftime("%d-%m-%Y %H:%M:%S ") + "Set modem DATA mode (reset)"
             sys.stdout.flush()
             sys.stderr.flush()
             self._sermode = SerialModem.Mode.DATA
@@ -290,7 +295,7 @@ class SerialModem:
         @param verbose: Print out SWAP traffic (True or False)
         """
         # Serial mode (command or data modes)
-        print time.strftime("[%b %d %H:%M:%S] ") + "Set modem DATA mode (__init__)"
+        print time.strftime("%d-%m-%Y %H:%M:%S ") + "Set modem DATA mode (__init__)"
         self._sermode = SerialModem.Mode.DATA
         # Response to the last AT command sent to the serial modem
         self._atresponse = ""
@@ -307,7 +312,7 @@ class SerialModem:
         ## Firmware version of the serial modem
         self.fwversion = None
 
-        print time.strftime("[%b %d %H:%M:%S] ") +  "Initialize modem"
+        print time.strftime("%d-%m-%Y %H:%M:%S ") +  "Initialize modem"
         sys.stdout.flush()
         sys.stderr.flush()
     
@@ -323,14 +328,19 @@ class SerialModem:
             self._wait_modem_start = False
             start = time.time()
             soft_reset = False
+            loop_counter = 0;
             while self._wait_modem_start == False:
+                loop_counter = loop_counter + 1
                 elapsed = time.time() - start
                 if not soft_reset and elapsed > 5:
+                    print time.strftime("%d-%m-%Y %H:%M:%S ") + threading.current_thread().name + "Modem: Execute soft reset"
                     self.reset()
                     soft_reset = True
                 elif soft_reset and elapsed > 10:
-                    raise SwapException("Unable to reset serial modem")
-
+                    print time.strftime("%d-%m-%Y %H:%M:%S ") + "Modem: Loop counter is %d" % (loop_counter)
+                    raise SwapException("Modem: Unable to reset")
+            print time.strftime("%d-%m-%Y %H:%M:%S ") + "Modem: Soft reset done (loop counter is %d)" % (loop_counter)
+            
             # Retrieve modem settings
             # Switch to command mode
             if not self.goToCommandMode():
