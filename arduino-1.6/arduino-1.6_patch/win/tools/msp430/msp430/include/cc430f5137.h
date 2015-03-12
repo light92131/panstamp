@@ -1104,6 +1104,7 @@ sfrw(RF1ASTAT0W, RF1ASTAT0W_);
 #define  RF1ADOUTB           RF1ASTAT0W_L /* Radio byte data out register without auto-read */
 #define  RF1ASTATB           RF1ASTAT0W_H /* Radio status byte register without auto-read */
 #define RF1ASTAT1W_           0x0F22    /* Radio status word register with 1-byte auto-read */
+#define BB_RF1ADOUTB() BITBUCKET_(RF1ASTAT0W_) /* Execute throw-away read of status register */
 sfrb(RF1ASTAT1W_L , RF1ASTAT1W_);
 sfrb(RF1ASTAT1W_H , RF1ASTAT1W_+1);
 sfrw(RF1ASTAT1W, RF1ASTAT1W_);
