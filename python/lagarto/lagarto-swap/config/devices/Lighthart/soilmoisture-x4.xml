@@ -4,7 +4,7 @@
   <product>Soil Moisture Sensor, 4-Channel</product>
   <pwrdownmode>true</pwrdownmode>
   <regular>
-    <reg name="Data" id="12">
+    <reg name="Data" id="11">
       <endpoint name="Sequence number" type="num" dir="inp">
         <position>0</position>
         <size>2</size>
@@ -31,7 +31,7 @@
         <size>2</size>
       </endpoint>
 
-      <endpoint name="Moisture level 3" type="num" dir="inp">
+      <endpoint name="Moisture level 4" type="num" dir="inp">
         <position>10</position>
         <size>2</size>
       </endpoint>

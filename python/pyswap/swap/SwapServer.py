@@ -354,8 +354,10 @@ class SwapServer(threading.Thread):
                             if reg.value.isEqual(packet.value):
                                 return
                             if packet.value is None:
+                                print time.strftime("%d-%m-%Y %H:%M:%S ") + "No value in register"
                                 return
                             if reg.getLength() != packet.value.getLength():
+                                print time.strftime("%d-%m-%Y %H:%M:%S ") + "Length " + str(packet.value.getLength()) + " != " + str(reg.getLength())
                                 return
 
                         # Save new register value
@@ -370,6 +372,12 @@ class SwapServer(threading.Thread):
                                 if endp.valueChanged == True:
                                     self._eventHandler.endpointValueChanged(endp)
                         return
+                    else:
+                        print time.strftime("%d-%m-%Y %H:%M:%S ") + "Packet not for regular register " + str(reg.id)
+                        return
+            else:
+                print time.strftime("%d-%m-%Y %H:%M:%S ") + "No regular registers in mote"
+                return
             # Search within its list of config registers
             if mote.config_registers is not None:
                 for reg in mote.config_registers:
@@ -391,6 +399,9 @@ class SwapServer(threading.Thread):
                             # Update network file
                             self.network.save()
                             return
+            return
+        else:
+            print time.strftime("%d-%m-%Y %H:%M:%S ") + "Update registers: Did not find mote"
             return
 
 

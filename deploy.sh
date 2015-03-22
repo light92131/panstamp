@@ -29,7 +29,7 @@ usage() {
     echo "  -V  Display version"
 }
 
-while getopts ":chnuvV" opt; do
+while getopts ":chnuUvV" opt; do
     case $opt in
 
     c)  CLEAN=true
@@ -43,6 +43,9 @@ while getopts ":chnuvV" opt; do
         ;;
 
     u)  UNDEPLOY=true
+        ;;
+
+    U)  UPDATE=true
         ;;
 
     v)  VERBOSE=true
