@@ -38,5 +38,6 @@
   </developer>
   <developer id="255" name="Lighthart">
     <dev id="1" name="soilmoisture" label="Lighthart Soil Moisture Sensor"/>
+    <dev id="2" name="soilmoisture-x4" label="Lighthart Soil Moisture Sensor, 4-Channel"/>
   </developer>
 </devices>
