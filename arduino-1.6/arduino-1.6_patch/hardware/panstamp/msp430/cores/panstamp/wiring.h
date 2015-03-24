@@ -156,11 +156,16 @@ extern const uint16_t digital_pin_to_analog_in[];
 #define portInputRegister(P)   ( (volatile uint8_t *)( port_to_input[P]) )
 #define portPMReg(P)           ( (volatile uint8_t *)( port_to_pmap[P]) )
 
+inline void delayMicroseconds(const uint16_t us)
+{
+  const uint16_t cyclesPerMicro = SYSTEM_CLK_FREQ/1000000L;
+  __delay_cycles((us * cyclesPerMicro));
+}
+
 // wiring.cpp
 void delay(uint32_t milliseconds);
 void sleep(uint32_t milliseconds);
 void sleepSeconds(uint32_t seconds);
-void delayMicroseconds(uint16_t us);
 uint32_t micros(void);
 uint32_t millis(void);
 void disableWatchDog();
@@ -179,6 +184,13 @@ void analogFrequency(uint16_t freq);
 
 // wirong_pulse.cpp
 unsigned long pulseIn(uint8_t pin, uint8_t state, unsigned long timeout = 1000000L);
+
+// wiring_shift.cpp
+void shiftOut(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder, uint8_t val);
+uint8_t shiftIn(uint8_t dataPin, uint8_t clockPin, uint8_t bitOrder);
+
+// Logarithm
+#define log  logf
 
 /**
  * Macros

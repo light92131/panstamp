@@ -114,7 +114,6 @@ unsigned char ReadSingleReg(unsigned char addr)
   return x;
 }
 
-
 // *************************************************************************************************
 // @fn          WriteSingleReg
 // @brief       Write byte to register.
@@ -123,18 +122,17 @@ unsigned char ReadSingleReg(unsigned char addr)
 // *************************************************************************************************
 void WriteSingleReg(unsigned char addr, unsigned char value)
 {
-  unsigned int i;
   unsigned int int_state;
+  unsigned short regVal;
 
+  regVal = ((addr | RF_REGWR) << 8 ) + value;
   ENTER_CRITICAL_SECTION(int_state);
-	
-  while (!(RF1AIFCTL1 & RFINSTRIFG));     // Wait for the Radio to be ready for the next instruction    
-    
-    RF1AINSTRW = ((addr | RF_REGWR)<<8 ) + value; // Send address + Instruction
-  while (!(RFDINIFG & RF1AIFCTL1));
-
-  i = RF1ADOUTB;                            // Reset RFDOUTIFG flag which contains status byte
-
+  while ( !(RF1AIFCTL1 & RFINSTRIFG) )     // Wait for the Radio to be ready for the next instruction
+    ;
+  RF1AINSTRW = regVal;                     // Send address + Instruction
+  while ( !(RFDINIFG & RF1AIFCTL1) )
+	;
+  BITBUCKET_RF1ADOUTB();                   // Reset RFDOUTIFG flag which contains status byte
   EXIT_CRITICAL_SECTION(int_state);
 }
 

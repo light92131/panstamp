@@ -62,6 +62,7 @@
 #define const_sfra(x,x_) extern const sfra_(x,x_)
 
 #ifdef __GNUC__
+#define BITBUCKET_(x) ((void)(*(volatile unsigned char*)x))
 #define __interrupt __attribute__((__interrupt__))
 #endif /* __GNUC__ */
 
